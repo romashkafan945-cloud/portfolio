@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мороз Роман · Портфолио программиста</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ----- ПЕРЕМЕННЫЕ ТЕМ (светлая по умолчанию) ----- */
+    :root {
+      --bg-body: #f0f4f9;
+      --bg-container: #ffffff;
+      --bg-card: #f5f8fc;
+      --bg-extra: #f8faff;
+      --bg-avatar: linear-gradient(145deg, #e8edf4, #d5dee9);
+      --text-primary: #0b1a2e;
+      --text-secondary: #2c3e50;
+      --text-muted: #5a6f84;
+      --border-color: #e2e8f0;
+      --border-hover: #b8cbe0;
+      --badge-bg: #dbeafe;
+      --badge-color: #1e4a7a;
+      --shadow: 0 20px 50px -12px rgba(0, 20, 40, 0.12);
+      --tag-bg: #dbeafe;
+      --tag-color: #1e4a7a;
+      --icon-color: #2b6cb0;
+      --email-bg: #e8edf4;
+      --email-hover: #d5dee9;
+      --footer-color: #8899aa;
+      --transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      --avatar-text: #0b1a2e;
+      --avatar-border: #ffffff;
+      --name-color: #1a1a1a;
+      --name-gradient: linear-gradient(135deg, #1a1a1a, #3a3a3a);
+      --github-color: #24292e;
+      --youtube-color: #ff0000;
+      --email-color-top: #fc3f1d;
+      --email-color-bottom: #ffd700;
+    }
+
+    /* ----- ТЁМНАЯ ТЕМА ----- */
+    [data-theme="dark"] {
+      --bg-body: #0a0e1a;
+      --bg-container: #141b2d;
+      --bg-card: #1a2338;
+      --bg-extra: #111a2e;
+      --bg-avatar: linear-gradient(145deg, #1f2a42, #141b2d);
+      --text-primary: #e8edf4;
+      --text-secondary: #b0c4db;
+      --text-muted: #7a8fa8;
+      --border-color: #28344a;
+      --border-hover: #4a6080;
+      --badge-bg: #1a3050;
+      --badge-color: #8ab8ff;
+      --shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.7);
+      --tag-bg: #1a3050;
+      --tag-color: #8ab8ff;
+      --icon-color: #5b9aff;
+      --email-bg: #1f2a42;
+      --email-hover: #2c3b5a;
+      --footer-color: #5a6f88;
+      --avatar-text: #e8edf4;
+      --avatar-border: #141b2d;
+      --name-color: #ffffff;
+      --name-gradient: linear-gradient(135deg, #e8edf4, #b0c4db);
+      --github-color: #f0f6fc;
+      --youtube-color: #ff0000;
+      --email-color-top: #fc3f1d;
+      --email-color-bottom: #ffd700;
+    }
+
+    /* ----- БАЗОВЫЕ СТИЛИ С АНИМАЦИЕЙ ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-body);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--bg-container);
+      border-radius: 2.5rem;
+      box-shadow: var(--shadow);
+      padding: 2.5rem 2rem;
+      transition: background var(--transition), box-shadow var(--transition), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      animation: containerAppear 0.8s ease-out;
+    }
+
+    @keyframes containerAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .theme-transition .container {
+      animation: themePulse 0.6s ease;
+    }
+
+    @keyframes themePulse {
+      0% {
+        transform: scale(1);
+      }
+      30% {
+        transform: scale(0.98);
+        opacity: 0.7;
+      }
+      70% {
+        transform: scale(1.01);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1.5px solid var(--border-color);
+      transition: border-color var(--transition);
+    }
+
+    .top-social {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top-social a {
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1.5px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    /* GitHub */
+    .top-social a.github-link {
+      color: var(--github-color);
+    }
+    .top-social a.github-link:hover {
+      color: var(--github-color);
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--border-hover);
+      box-shadow: 0 6px 16px -6px rgba(36, 41, 46, 0.15);
+    }
+
+    /* Telegram — ссылка на t.me/mrRomanchik9 */
+    .top-social a.telegram-link {
+      color: var(--icon-color);
+    }
+    .top-social a.telegram-link:hover {
+      color: var(--icon-color);
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--border-hover);
+      box-shadow: 0 6px 16px -6px rgba(37, 99, 235, 0.12);
+    }
+
+    /* YouTube */
+    .top-social a.youtube-link {
+      color: var(--youtube-color);
+    }
+    .top-social a.youtube-link:hover {
+      color: var(--youtube-color);
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--border-hover);
+      box-shadow: 0 6px 16px -6px rgba(255, 0, 0, 0.15);
+    }
+
+    /* Email — иконка-якорь вниз */
+    .top-social a.email-link {
+      color: var(--email-color-top);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .top-social a.email-link:hover {
+      color: var(--email-color-top);
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--border-hover);
+      box-shadow: 0 6px 16px -6px rgba(252, 63, 29, 0.15);
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 60px;
+      padding: 0.3rem 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--icon-color);
+      opacity: 0;
+      border-radius: 60px;
+      transition: opacity var(--transition);
+    }
+
+    .theme-toggle:hover::before {
+      opacity: 0.06;
+    }
+
+    .theme-toggle i {
+      font-size: 1rem;
+      color: var(--icon-color);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .theme-toggle .theme-label {
+      display: inline-block;
+      min-width: 50px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: color var(--transition);
+    }
+
+    .theme-toggle:hover i {
+      transform: rotate(20deg) scale(1.1);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 2.5rem;
+      transition: border-color var(--transition);
+    }
+
+    .hero-text {
+      flex: 1 1 280px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--badge-color);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      transition: all var(--transition);
+    }
+
+    .hero-text h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+
+    .hero-text h1 span {
+      background: var(--name-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      transition: all var(--transition);
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 440px;
+      margin-top: 0.2rem;
+      font-weight: 400;
+      transition: color var(--transition);
+    }
+
+    .hero-avatar {
+      flex-shrink: 0;
+      background: var(--bg-avatar);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      font-weight: 600;
+      color: var(--avatar-text);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      border: 4px solid var(--avatar-border);
+      transition: all var(--transition);
+      animation: avatarFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes avatarFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ===== ЧТО Я ПРОШЕЛ (бывшие "Мои работы") ===== */
+    .skills-section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 1.8rem;
+      transition: color var(--transition);
+    }
+
+    .section-title i {
+      color: var(--icon-color);
+      font-size: 1.8rem;
+      width: 2rem;
+      transition: color var(--transition);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      padding: 1.5rem 1rem 1.2rem;
+      border-radius: 2rem;
+      text-align: center;
+      border: 1.5px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      transition: all var(--transition);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--icon-color), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      border-radius: 2rem;
+      pointer-events: none;
+    }
+
+    .skill-card:hover::before {
+      opacity: 0.06;
+    }
+
+    .skill-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 40px -12px rgba(37, 99, 235, 0.15);
+    }
+
+    .skill-icon {
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: var(--text-primary);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color var(--transition);
+    }
+
+    .skill-card:hover .skill-icon {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    .skill-card h3 {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+
+    .skill-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      background: var(--border-color);
+      display: inline-block;
+      padding: 0.15rem 1rem;
+      border-radius: 30px;
+      margin-top: 0.25rem;
+      transition: all var(--transition);
+    }
+
+    .skill-card:hover p {
+      background: var(--badge-bg);
+      color: var(--badge-color);
+    }
+
+    /* ===== ДОПОЛНИТЕЛЬНО: ОПЫТ ===== */
+    .extra-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      background: var(--bg-extra);
+      border-radius: 2rem;
+      padding: 1.8rem 2rem;
+      border: 1.5px solid var(--border-color);
+      transition: all var(--transition);
+    }
+
+    .extra-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1 1 200px;
+      transition: transform 0.3s ease;
+    }
+
+    .extra-item:hover {
+      transform: translateX(4px);
+    }
+
+    .extra-item i {
+      font-size: 1.6rem;
+      color: var(--icon-color);
+      width: 2.2rem;
+      transition: all var(--transition);
+    }
+
+    .extra-item:hover i {
+      transform: scale(1.1) rotate(-8deg);
+    }
+
+    .extra-item div {
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+
+    .extra-item small {
+      display: block;
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color var(--transition);
+    }
+
+    /* ===== ИИ ИНТЕНСИВ ===== */
+    .projects-section {
+      margin: 3rem 0 1.5rem;
+    }
+
+    .project-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+
+    .project-item {
+      background: var(--bg-card);
+      padding: 1.2rem 1.2rem 1rem;
+      border-radius: 2rem;
+      border: 1.5px solid var(--border-color);
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--icon-color), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      border-radius: 2rem;
+      pointer-events: none;
+    }
+
+    .project-item:hover::before {
+      opacity: 0.05;
+    }
+
+    .project-item:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -12px rgba(37, 99, 235, 0.1);
+    }
+
+    .project-item i {
+      font-size: 2rem;
+      color: var(--icon-color);
+      margin-bottom: 0.4rem;
+      transition: all var(--transition);
+    }
+
+    .project-item:hover i {
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    .project-item h4 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+
+    .project-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      transition: color var(--transition);
+    }
+
+    .project-item .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      background: var(--tag-bg);
+      color: var(--tag-color);
+      padding: 0.15rem 0.75rem;
+      border-radius: 30px;
+      margin-top: 0.4rem;
+      font-weight: 500;
+      transition: all var(--transition);
+    }
+
+    /* ===== НИЖНЯЯ ЧАСТЬ — ПОЧТА (ЖЁЛТАЯ) ===== */
+    .contact-line {
+      margin-top: 2.8rem;
+      padding-top: 1.8rem;
+      border-top: 2px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      transition: border-color var(--transition);
+      scroll-margin-top: 2rem;
+    }
+
+    .contact-email {
+      background: var(--email-bg);
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all var(--transition);
+      border: 1.5px solid transparent;
+    }
+
+    .contact-email i {
+      color: var(--email-color-bottom);
+      font-size: 1.2rem;
+      transition: all var(--transition);
+    }
+
+    .contact-email:hover {
+      background: var(--email-hover);
+      transform: translateY(-2px);
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 24px -8px rgba(37, 99, 235, 0.12);
+    }
+
+    .contact-email:hover i {
+      transform: rotate(-8deg) scale(1.1);
+    }
+
+    .footer-note {
+      font-size: 0.8rem;
+      color: var(--footer-color);
+      margin-top: 1.8rem;
+      text-align: center;
+      letter-spacing: 0.01em;
+      transition: color var(--transition);
+    }
+
+    /* ===== АДАПТИВ ===== */
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+      .container {
+        padding: 1.8rem 1.2rem;
+        border-radius: 2rem;
+      }
+      .top-bar {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        gap: 0.8rem;
+      }
+      .top-social {
+        gap: 0.5rem;
+      }
+      .top-social a {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+      }
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+      .hero-avatar {
+        width: 90px;
+        height: 90px;
+        font-size: 2.8rem;
+      }
+      .extra-row {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+      }
+      .theme-toggle {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+      .theme-toggle .theme-label {
+        min-width: 40px;
+      }
+      .contact-line {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="top-social">
+      <a href="#" aria-label="GitHub" class="github-link"><i class="fab fa-github"></i></a>
+      <a href="https://t.me/mrRomanchik9" target="_blank" aria-label="Telegram" class="telegram-link"><i class="fab fa-telegram-plane"></i></a>
+      <a href="https://www.youtube.com/channel/UCraStX45w7R3WVT97nw11Yw" target="_blank" aria-label="YouTube" class="youtube-link"><i class="fab fa-youtube"></i></a>
+      <a href="#contact-email-section" aria-label="Email" class="email-link">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+    <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="Переключить тему">
+      <i class="fas fa-sun" id="themeIcon"></i>
+      <span class="theme-label" id="themeLabel">Светлая</span>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="hero-text">
+      <span class="badge"><i class="fas fa-code" style="margin-right: 6px;"></i> Junior Developer</span>
+      <h1>Мороз <span>Роман</span></h1>
+      <p><i class="fas fa-terminal" style="color: var(--icon-color); margin-right: 8px;"></i> Создаю игры и учусь новому</p>
+    </div>
+    <div class="hero-avatar">
+      <span>Р</span>
+    </div>
+  </div>
+
+  <!-- ===== ЧТО Я ПРОШЕЛ ===== -->
+  <div class="skills-section">
+    <div class="section-title">
+      <i class="fas fa-cogs"></i>
+      <span>Что я прошел</span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">🐱</span>
+        <h3>Scratch</h3>
+        <p>визуальное программирование</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon"><i class="fas fa-gamepad" style="color: #6b4c9a;"></i></span>
+        <h3>GDevelop</h3>
+        <p>движок для игр</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon"><i class="fas fa-robot" style="color: #2d7f4d;"></i></span>
+        <h3>Code Combat</h3>
+        <p>игровое обучение</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon"><i class="fab fa-python" style="color: #3776ab;"></i></span>
+        <h3>Python</h3>
+        <p>скрипты, автоматизация</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon"><i class="fas fa-brain" style="color: #7c3aed;"></i></span>
+        <h3>Интенсив по ИИ</h3>
+        <p>музыка, сайты, игры, боты в TG</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ДОПОЛНИТЕЛЬНО ===== -->
+  <div class="extra-row">
+    <div class="extra-item">
+      <i class="fas fa-graduation-cap"></i>
+      <div>
+        Самообразование <small>онлайн‑курсы, документация</small>
+      </div>
+    </div>
+    <div class="extra-item">
+      <i class="fas fa-laptop-code"></i>
+      <div>
+        Пет-проекты <small>игры, скрипты, боты</small>
+      </div>
+    </div>
+    <div class="extra-item">
+      <i class="fas fa-brain"></i>
+      <div>
+        Аналитическое мышление <small>решение задач</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ИИ ИНТЕНСИВ ===== -->
+  <div class="projects-section">
+    <div class="section-title">
+      <i class="fas fa-folder-open"></i>
+      <span>ИИ Интенсив</span>
+    </div>
+    <div class="project-cards">
+      <div class="project-item">
+        <i class="fas fa-terminal"></i>
+        <h4>Бот для Telegram</h4>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== НИЖНЯЯ ЧАСТЬ — ПОЧТА (ЖЁЛТАЯ) ===== -->
+  <div class="contact-line" id="contact-email-section">
+    <a href="mailto:morozzzroma@yandex.by" class="contact-email">
+      <i class="fas fa-envelope"></i> morozzzroma@yandex.by
+    </a>
+  </div>
+
+  <div class="footer-note">
+    <i class="fas fa-code" style="margin-right: 6px; color: var(--icon-color);"></i> Мороз Роман · 2026 · портфолио
+  </div>
+</div>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    const container = document.getElementById('mainContainer');
+
+    function getCurrentTheme() {
+      return document.documentElement.getAttribute('data-theme') || 'light';
+    }
+
+    function setTheme(theme) {
+      container.classList.add('theme-transition');
+
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        icon.className = 'fas fa-moon';
+        label.textContent = 'Тёмная';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        icon.className = 'fas fa-sun';
+        label.textContent = 'Светлая';
+      }
+      localStorage.setItem('portfolio-theme', theme);
+
+      setTimeout(() => {
+        container.classList.remove('theme-transition');
+      }, 700);
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('portfolio-theme');
+      if (saved === 'dark') { setTheme('dark'); return; }
+      if (saved === 'light') { setTheme('light'); return; }
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+    }
+
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      const current = getCurrentTheme();
+      setTheme(current === 'light' ? 'dark' : 'light');
+    });
+
+    toggle.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle.click();
+      }
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('portfolio-theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    initTheme();
+  })();
+</script>
+
+</body>
+</html>
