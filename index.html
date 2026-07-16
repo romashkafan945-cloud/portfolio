@@ -707,43 +707,19 @@
             transition: color var(--transition);
         }
 
-        /* Убираем тег .tag, чтобы не отображался "Python" */
         .project-item .tag {
-            display: none;
-        }
-
-        /* ===== КНОПКА "ИГРАТЬ" (увеличенная, без иконки) ===== */
-        .project-item .play-btn {
             display: inline-block;
-            margin-top: 0.6rem;
-            padding: 0.55rem 1.8rem;
-            background: var(--icon-color);
-            color: #fff;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            letter-spacing: 0.5px;
+            font-size: 0.65rem;
+            background: var(--tag-bg);
+            color: var(--tag-color);
+            padding: 0.15rem 0.75rem;
+            border-radius: 30px;
+            margin-top: 0.4rem;
+            font-weight: 500;
+            transition: all var(--transition);
         }
 
-        .project-item .play-btn:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 30px var(--glow-color);
-            background: var(--border-hover);
-            color: var(--text-primary);
-        }
-
-        [data-theme="solar"] .project-item .play-btn {
-            color: #fff;
-        }
-        [data-theme="solar"] .project-item .play-btn:hover {
-            color: var(--text-primary);
-        }
-
-        /* Остальные кнопки .project-link оставляем без изменений */
+        /* ===== СТИЛИ ДЛЯ КНОПОК В КАРТОЧКАХ ===== */
         .project-item .project-link {
             display: inline-block;
             margin-top: 0.6rem;
@@ -771,6 +747,67 @@
             color: #fff;
         }
         [data-theme="solar"] .project-item .project-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Стили для группы кнопок в карточке музыки */
+        .project-item .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .project-item .btn-play {
+            display: inline-block;
+            padding: 0.35rem 1.2rem;
+            background: var(--icon-color);
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .project-item .btn-play:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 30px var(--glow-color);
+            background: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .project-item .btn-link-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .project-item .btn-link-icon:hover {
+            transform: scale(1.04);
+            border-color: var(--border-hover);
+            box-shadow: 0 0 30px var(--glow-color);
+            background: var(--border-hover);
+        }
+
+        [data-theme="solar"] .project-item .btn-play {
+            color: #fff;
+        }
+        [data-theme="solar"] .project-item .btn-play:hover {
             color: var(--text-primary);
         }
 
@@ -838,8 +875,9 @@
             .hero-avatar { width: 90px; height: 90px; }
             .extra-row { flex-direction: column; gap: 1rem; padding: 1.5rem; }
             .contact-line { justify-content: center; }
-            .project-item .project-link { font-size: 0.8rem; padding: 0.3rem 0.9rem; }
-            .project-item .play-btn { font-size: 0.95rem; padding: 0.45rem 1.4rem; }
+            .project-item .project-link,
+            .project-item .btn-play { font-size: 0.75rem; padding: 0.3rem 0.9rem; }
+            .project-item .btn-link-icon { width: 30px; height: 30px; font-size: 0.8rem; }
             .theme-toggle .theme-label { min-width: 45px; font-size: 0.75rem; }
         }
     </style>
@@ -954,21 +992,31 @@
                 <span>ИИ Интенсив</span>
             </div>
             <div class="project-cards">
+                <!-- Музыка в Suno AI -->
                 <div class="project-item">
                     <i class="fas fa-music" style="color: #8b5cf6;"></i>
                     <h4>Музыка в Suno AI</h4>
-                    <a href="https://suno.com/song/01c43ddc-7fa3-472a-83e7-acba4696a92f?sh=Hx2i12sx9yg9dtrJ" target="_blank" class="project-link">
-                        Слушать трек
-                    </a>
+                    <div class="btn-group">
+                        <button class="btn-play" id="playMusicBtn">Слушать</button>
+                        <a href="https://suno.com/song/01c43ddc-7fa3-472a-83e7-acba4696a92f" target="_blank" class="btn-link-icon" aria-label="Открыть в Suno AI">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <audio id="musicPlayer" style="display: none;">
+                        <source src="Лето — просто свет.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
+
+                <!-- Игра (Python + Jc) -->
                 <div class="project-item">
                     <i class="fas fa-gamepad" style="color: #f59e0b;"></i>
                     <h4>Игра (Python + Jc)</h4>
-                    <!-- тег .tag скрыт через CSS -->
-                    <a href="https://romashkafan945-cloud.github.io/game/" target="_blank" class="play-btn">
+                    <a href="https://romashkafan945-cloud.github.io/game/" target="_blank" class="project-link">
                         Играть
                     </a>
                 </div>
+
+                <!-- Бот для Telegram -->
                 <div class="project-item">
                     <i class="fas fa-terminal"></i>
                     <h4>Бот для Telegram</h4>
@@ -1147,6 +1195,82 @@
             });
 
             initTheme();
+
+            // ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР (исправлен для русских названий) =====
+            const playBtn = document.getElementById('playMusicBtn');
+            const audio = document.getElementById('musicPlayer');
+            let isPlaying = false;
+            let isReserve = false; // флаг, что играет резервный трек
+
+            if (playBtn && audio) {
+                // Функция обновления кнопки
+                function updateButton(state) {
+                    if (state === 'playing') {
+                        playBtn.textContent = 'Пауза';
+                        isPlaying = true;
+                    } else {
+                        playBtn.textContent = 'Слушать';
+                        isPlaying = false;
+                    }
+                }
+
+                // Обработчик клика по кнопке
+                playBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    if (isPlaying) {
+                        audio.pause();
+                        updateButton('paused');
+                        return;
+                    }
+
+                    // Пытаемся воспроизвести
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // Воспроизведение началось успешно
+                            updateButton('playing');
+                        }).catch(err => {
+                            console.warn('Ошибка воспроизведения:', err);
+                            // Если файл не найден и ещё не пробовали резервный
+                            if (!isReserve) {
+                                isReserve = true;
+                                audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+                                audio.load();
+                                audio.play().then(() => {
+                                    updateButton('playing');
+                                }).catch(e => {
+                                    console.warn('Резервный трек тоже не играет:', e);
+                                    updateButton('paused');
+                                });
+                            } else {
+                                updateButton('paused');
+                            }
+                        });
+                    }
+                });
+
+                // Когда трек закончился
+                audio.addEventListener('ended', function() {
+                    updateButton('paused');
+                    // Если играл резервный, сбрасываем флаг, чтобы при следующем нажатии попробовать основной трек
+                    if (isReserve) {
+                        isReserve = false;
+                        audio.src = 'Лето — просто свет.mp3';
+                        audio.load();
+                    }
+                });
+
+                // Обработка ошибок загрузки
+                audio.addEventListener('error', function(e) {
+                    console.warn('Ошибка загрузки аудио:', e);
+                    if (!isReserve) {
+                        isReserve = true;
+                        audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+                        audio.load();
+                    }
+                });
+            }
         })();
     </script>
 </body>
