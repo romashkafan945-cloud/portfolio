@@ -750,16 +750,6 @@
             color: var(--text-primary);
         }
 
-        /* Стили для группы кнопок в карточке музыки */
-        .project-item .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-top: 0.6rem;
-            justify-content: center;
-            align-items: center;
-        }
-
         .project-item .btn-play {
             display: inline-block;
             padding: 0.35rem 1.2rem;
@@ -779,6 +769,13 @@
             transform: scale(1.04);
             box-shadow: 0 0 30px var(--glow-color);
             background: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        [data-theme="solar"] .project-item .btn-play {
+            color: #fff;
+        }
+        [data-theme="solar"] .project-item .btn-play:hover {
             color: var(--text-primary);
         }
 
@@ -804,11 +801,14 @@
             background: var(--border-hover);
         }
 
-        [data-theme="solar"] .project-item .btn-play {
-            color: #fff;
-        }
-        [data-theme="solar"] .project-item .btn-play:hover {
-            color: var(--text-primary);
+        /* Группа кнопок в ряд */
+        .project-item .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
+            justify-content: center;
+            align-items: center;
         }
 
         .contact-line {
@@ -996,7 +996,7 @@
                 <div class="project-item">
                     <i class="fas fa-music" style="color: #8b5cf6;"></i>
                     <h4>Музыка в Suno AI</h4>
-                    <div class="btn-group">
+                    <div class="btn-group" style="justify-content: flex-start; padding-left: 0.5rem;">
                         <button class="btn-play" id="playMusicBtn">Слушать</button>
                         <a href="https://suno.com/song/01c43ddc-7fa3-472a-83e7-acba4696a92f" target="_blank" class="btn-link-icon" aria-label="Открыть в Suno AI">
                             <i class="fas fa-external-link-alt"></i>
@@ -1016,11 +1016,42 @@
                     </a>
                 </div>
 
-                <!-- Бот для Telegram -->
+                <!-- Бот для Telegram (убрали тег Python) -->
                 <div class="project-item">
                     <i class="fas fa-terminal"></i>
                     <h4>Бот для Telegram</h4>
-                    <span class="tag">Python</span>
+                    <a href="https://t.me/artistguessbot?start=site" target="_blank" class="project-link" style="margin-top: 0.3rem;">
+                        Играть
+                    </a>
+                </div>
+
+                <!-- Новый: Телеграм бот для дизайна -->
+                <div class="project-item">
+                    <i class="fas fa-paint-brush" style="color: #f472b6;"></i>
+                    <h4>Телеграм бот для дизайна</h4>
+                    <a href="https://t.me/DesignAIbot_bot?start=site" target="_blank" class="project-link" style="margin-top: 0.3rem;">
+                        Перейти
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== НАШ ОБЩИЙ САЙТ ===== -->
+        <div class="projects-section">
+            <div class="section-title" style="justify-content: center;">
+                <i class="fas fa-users"></i>
+                <span>Наш общий сайт Креативный Квартал</span>
+            </div>
+            <div class="project-cards" style="display: flex; justify-content: center;">
+                <div class="project-item" style="max-width: 300px; width: 100%; text-align: center;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-globe" style="font-size: 2.5rem; color: var(--icon-color);"></i>
+                        <h4 style="margin-bottom: 0.2rem;">Наш сайт</h4>
+                        <div class="btn-group" style="justify-content: center; margin-top: 0.3rem;">
+                            <a href="https://ddreamerer.github.io/kreativni_kvartal/" target="_blank" class="project-link">Перейти на сайт</a>
+                            <a href="https://t.me/creativekvartalbot?start=site" target="_blank" class="project-link">Перейти в бота</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1196,14 +1227,13 @@
 
             initTheme();
 
-            // ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР (исправлен для русских названий) =====
+            // ===== МУЗЫКАЛЬНЫЙ ПЛЕЕР =====
             const playBtn = document.getElementById('playMusicBtn');
             const audio = document.getElementById('musicPlayer');
             let isPlaying = false;
-            let isReserve = false; // флаг, что играет резервный трек
+            let isReserve = false;
 
             if (playBtn && audio) {
-                // Функция обновления кнопки
                 function updateButton(state) {
                     if (state === 'playing') {
                         playBtn.textContent = 'Пауза';
@@ -1214,7 +1244,6 @@
                     }
                 }
 
-                // Обработчик клика по кнопке
                 playBtn.addEventListener('click', function(e) {
                     e.preventDefault();
 
@@ -1224,15 +1253,12 @@
                         return;
                     }
 
-                    // Пытаемся воспроизвести
                     const playPromise = audio.play();
                     if (playPromise !== undefined) {
                         playPromise.then(() => {
-                            // Воспроизведение началось успешно
                             updateButton('playing');
                         }).catch(err => {
                             console.warn('Ошибка воспроизведения:', err);
-                            // Если файл не найден и ещё не пробовали резервный
                             if (!isReserve) {
                                 isReserve = true;
                                 audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
@@ -1250,10 +1276,8 @@
                     }
                 });
 
-                // Когда трек закончился
                 audio.addEventListener('ended', function() {
                     updateButton('paused');
-                    // Если играл резервный, сбрасываем флаг, чтобы при следующем нажатии попробовать основной трек
                     if (isReserve) {
                         isReserve = false;
                         audio.src = 'Лето — просто свет.mp3';
@@ -1261,7 +1285,6 @@
                     }
                 });
 
-                // Обработка ошибок загрузки
                 audio.addEventListener('error', function(e) {
                     console.warn('Ошибка загрузки аудио:', e);
                     if (!isReserve) {
